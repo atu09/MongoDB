@@ -2,51 +2,39 @@ package com.atirek.alm.mongodb;
 
 import android.util.Log;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
-import com.mongodb.WriteConcern;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoIterable;
 
+import org.bson.Document;
+import org.bson.conversions.Bson;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Alm on 9/9/2016.
  */
 public class MongoConnection {
 
-    public static String baseUrl = "mongodb://airtask:12345@54.255.168.165:27017/admin";
+    public static String baseUrl = "mongodb://airtask:12345@54.255.168.165:27017/?authSource=admin";
     public static String dbName = "he_voice_app";
 
     public static MongoClientURI mongoClientURI;
     public static MongoClient mongoClient;
 
-    public static DBCollection dbCollection;
-    public static List<DBObject> dbObjectList = new ArrayList<>();
+    public static MongoCollection<Document> collection;
 
-    public static DB database;
+    public static MongoDatabase database;
 
-    private static MongoConnection instance = null;
-
-    public static MongoConnection getInstance() {
-        if (instance == null) {
-            instance = new MongoConnection();
-        }
-        return instance;
-    }
-
-
-    public boolean connection(String dbName) {
+    public static boolean connection(String dbName) {
         boolean check = false;
         try {
             mongoClientURI = new MongoClientURI(baseUrl);
             mongoClient = new MongoClient(mongoClientURI);
-            mongoClient.setWriteConcern(WriteConcern.SAFE);
-            database = mongoClient.getDB(dbName);
+            database = mongoClient.getDatabase(dbName);
+            System.out.println("Database " + database.getName());
             check = true;
         } catch (Exception e) {
             check = false;
@@ -54,23 +42,27 @@ public class MongoConnection {
         return check;
     }
 
-    public DBObject fetchData(String collectionName, String key, String value) {
+    public static MongoCollection<Document> fetchData(String collectionName) {
 
-        dbCollection = database.getCollection(collectionName);
-        BasicDBObject query = new BasicDBObject();
-        query.put(key, value);
-        DBObject dbObject = dbCollection.findOne(query);
-        return dbObject;
+        //collection = database.getCollection(collectionName);
+
+/*
+        MongoCursor<Document> cursor = collection.find().iterator();
+        try {
+            while (cursor.hasNext()) {
+                System.out.println(cursor.next().toJson());
+            }
+        } finally {
+            cursor.close();
+        }
+*/
+
+        return database.getCollection(collectionName);
 
     }
 
-    public List<DBObject> fetchList(String collectionName) {
-
-        getInstance();
-        dbCollection = database.getCollection(collectionName);
-        dbObjectList = dbCollection.find().toArray();
-
-        return dbObjectList;
+    public static String fetchTables() {
+        return database.listCollectionNames().toString();
     }
 
 }

@@ -1,16 +1,18 @@
 package com.atirek.alm.mongodb;
 
+
 import android.util.Log;
 
+import com.google.gson.Gson;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
 
 import org.bson.Document;
-import org.bson.conversions.Bson;
+
+import java.util.ArrayList;
 
 
 /**
@@ -24,9 +26,11 @@ public class MongoConnection {
     public static MongoClientURI mongoClientURI;
     public static MongoClient mongoClient;
 
-    public static MongoCollection<Document> collection;
-
     public static MongoDatabase database;
+
+    public static Gson gson = new Gson();
+
+    public static ArrayList<Post> postList = new ArrayList<>();
 
     public static boolean connection(String dbName) {
         boolean check = false;
@@ -42,9 +46,9 @@ public class MongoConnection {
         return check;
     }
 
-    public static MongoCollection<Document> fetchData(String collectionName) {
+    public static ArrayList<Post> fetchData(String collectionName) {
 
-        //collection = database.getCollection(collectionName);
+        MongoCollection<Document> collection = database.getCollection(collectionName);
 
 /*
         MongoCursor<Document> cursor = collection.find().iterator();
@@ -57,12 +61,30 @@ public class MongoConnection {
         }
 */
 
-        return database.getCollection(collectionName);
+        int i = 0;
+        for (Document doc : collection.find()) {
+            try {
+                i++;
+                Post post = gson.fromJson(doc.toJson(), Post.class);
+                postList.add(post);
+                Log.d("Connection>>>", post.toString());
+            } catch (Exception e) {
+                Log.d("Connection>>>", "Error: " + doc.toJson() + " " + i);
+            }
+        }
+
+        Log.d("Connection>>>", "Count: " + collection.count());
+
+        return postList;
 
     }
 
-    public static String fetchTables() {
-        return database.listCollectionNames().toString();
+    public static void fetchTables() {
+        MongoIterable<String> tables = database.listCollectionNames();
+
+        for (String table : tables) {
+            Log.d("Connection>>>", "Table: " + table);
+        }
     }
 
 }

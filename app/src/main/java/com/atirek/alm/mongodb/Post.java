@@ -1,5 +1,6 @@
 package com.atirek.alm.mongodb;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,55 +9,55 @@ import com.google.gson.annotations.SerializedName;
 public class Post {
 
     @SerializedName("_id")
-    private String _id;
+    JsonObject _id;
 
     @SerializedName("audio_url")
-    private String audio_url;
+    String audio_url;
 
     @SerializedName("category")
-    private String category;
+    String category;
 
     @SerializedName("colorCode")
-    private String colorCode;
-
-    @SerializedName("language")
-    private String language;
-
-    @SerializedName("title")
-    private String title;
-
-    @SerializedName("duration")
-    private String duration;
-
-    @SerializedName("timeStamp")
-    private String timeStamp;
-
-    @SerializedName("userId")
-    private String userId;
-
-    @SerializedName("username")
-    private String username;
-
-    @SerializedName("type")
-    private String type;
-
-    @SerializedName("userImage")
-    private String userImage;
+    String colorCode;
 
     @SerializedName("comment")
-    private String[] comment;
+    String[] comment;
 
-    @SerializedName("retweet")
-    private String[] retweet;
+    @SerializedName("duration")
+    String duration;
+
+    @SerializedName("language")
+    String language;
 
     @SerializedName("like")
-    private String[] like;
+    String[] like;
 
-    public String get_id() {
+    @SerializedName("retweet")
+    String[] retweet;
+
+    @SerializedName("timeStamp")
+    String timeStamp;
+
+    @SerializedName("title")
+    String title;
+
+    @SerializedName("type")
+    String type;
+
+    @SerializedName("userId")
+    String userId;
+
+    @SerializedName("userImage")
+    String userImage;
+
+    @SerializedName("username")
+    String username;
+
+    public JsonObject get_id() {
         return _id;
     }
 
-    public void set_id(String _id) {
+    public void set_id(JsonObject _id) {
         this._id = _id;
     }
 
@@ -84,20 +85,12 @@ public class Post {
         this.colorCode = colorCode;
     }
 
-    public String getLanguage() {
-        return language;
+    public String[] getComment() {
+        return comment;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+    public void setComment(String[] comment) {
+        this.comment = comment;
     }
 
     public String getDuration() {
@@ -108,52 +101,20 @@ public class Post {
         this.duration = duration;
     }
 
-    public String getTimeStamp() {
-        return timeStamp;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setTimeStamp(String timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public String getUserId() {
-        return userId;
+    public String[] getLike() {
+        return like;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getUserImage() {
-        return userImage;
-    }
-
-    public void setUserImage(String userImage) {
-        this.userImage = userImage;
-    }
-
-    public String[] getComment() {
-        return comment;
-    }
-
-    public void setComment(String[] comment) {
-        this.comment = comment;
+    public void setLike(String[] like) {
+        this.like = like;
     }
 
     public String[] getRetweet() {
@@ -164,11 +125,51 @@ public class Post {
         this.retweet = retweet;
     }
 
-    public String[] getLike() {
-        return like;
+    public String getTimeStamp() {
+        return timeStamp;
     }
 
-    public void setLike(String[] like) {
-        this.like = like;
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

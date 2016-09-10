@@ -6,18 +6,20 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
 
 import org.bson.Document;
 
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
-    MongoCollection<Document> collection;
+    ArrayList<Post> postList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +32,9 @@ public class MainActivity extends AppCompatActivity {
         }
 
         Log.d("Connection>>>", String.valueOf(MongoConnection.connection(MongoConnection.dbName)));
-        //Log.d("Connection>>>", "Tables " + MongoConnection.fetchTables());
-        collection = MongoConnection.fetchData("post");
+        MongoConnection.fetchTables();
+        postList = MongoConnection.fetchData("post");
 
-        for (Document doc : collection.find()) {
-            Log.d("Connection>>>", doc.toJson());
-        }
-
-        Log.d("Connection>>>", collection.count() + "");
 
     }
 
